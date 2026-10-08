@@ -1,0 +1,37 @@
+{
+  "id": "/index.html",
+  "short_name": "uwa fc",
+  "name": "uwa fc",
+  "description": "Official Web Platform of the Uganda Wildlife Authority Football Club.",
+  "start_url": "/index.html",
+  "background_color": "#031109",
+  "theme_color": "#0B4622",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/manifest-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/manifest-500.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/manifest-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/manifest-500.png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

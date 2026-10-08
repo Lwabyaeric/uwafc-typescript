@@ -1,0 +1,63 @@
+/* App.css - Cleaned Global Application Layout Framework */
+
+/* 
+  
+  This forces the root Vite container (#root or #app) to expand edge-to-edge.
+  It deletes the default "max-width: 1280px" and centered padding that was creating the black outer margins.
+*/
+#root, #app {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center;
+  background-color: #031109; /* Sets the global canvas to match UWA Dark Moss Green */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  transition: filter 0.3s ease;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em rgba(242, 169, 0, 0.4)); /* Upgraded to use UWA Gold glow on hover */
+}
+
+.logo.preact:hover {
+  filter: drop-shadow(0 0 2em rgba(13, 82, 44, 0.6)); /* Upgraded to use UWA Forest Green glow */
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #a3a3a3; /* Lightened slightly for higher contrast readabilities against deep greens */
+}
+@keyframes growRight {
+  from { width: 0%; }
+  to { width: var(--target-width); }
+}
+
+@keyframes growLeft {
+  from { width: 0%; }
+  to { width: var(--target-width); }
+}
+
+.animate-grow-right {
+  animation: growRight 1.2s cubic-bezier(0.1, 1, 0.1, 1) forwards;
+}
+
+.animate-grow-left {
+  animation: growLeft 1.2s cubic-bezier(0.1, 1, 0.1, 1) forwards;
+}
+
+.hero-section {
+  background-image: url('/assets/svg/hero-pattern.svg');
+}
+
+.palmares-section {
+  background-image: url('/assets/palmares-bg.jpg');
+}
+

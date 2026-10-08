@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UWA FC Portal - Developer Documentation</title>
+    <style>
+        :root {
+            --uwa-green: #0A3925;
+            --uwa-light-green: #0B4622;
+            --savannah-gold: #D4AF37;
+            --dark-bg: #031109;
+            --text-dark: #222222;
+            --text-light: #555555;
+            --code-bg: #f4f4f4;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #fafafa;
+        }
+        header {
+            background: linear-gradient(135deg, var(--uwa-green), var(--dark-bg));
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            border-bottom: 4px solid var(--savannah-gold);
+            margin-bottom: 30px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: 0.5px;
+        }
+        header p {
+            margin: 5px 0 0 0;
+            color: var(--savannah-gold);
+            font-weight: 500;
+        }
+        h2 {
+            color: var(--uwa-green);
+            border-bottom: 2px solid #eeeeee;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: var(--uwa-light-green);
+            margin-top: 25px;
+        }
+        p, li {
+            color: var(--text-light);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+            color: #bd4147;
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border-left: 4px solid var(--uwa-light-green);
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-dark);
+            font-size: 0.85em;
+        }
+        .badge {
+            display: inline-block;
+            background-color: var(--uwa-green);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 3px solid var(--savannah-gold);
+        }
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>UWA FC Web Portal &amp; PWA</h1>
+        <p>Official Executive Platform &mdash; Multi-Page Routing Documentation</p>
+    </header>
+
+    <h2>1. Executive Summary</h2>
+    <p>This web application delivers real-time match data, roster changes, and club metrics for <strong>Uganda Wildlife Authority Football Club (UWA FC)</strong>. Built as a Progressive Web Application (PWA) with a structured multi-page routing system, the platform seamlessly segments institutional corporate governance from football performance analytics.</p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Club Identity Integration</h3>
+            <ul>
+                <li><strong>Primary:</strong> Corporate Deep Green</li>
+                <li><strong>Secondary:</strong> Savannah Gold Accent</li>
+                <li><strong>Dynamic Favicon:</strong> Circular auto-masked badge layout built dynamically via JavaScript canvas matrices.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>PWA Configurations</h3>
+            <ul>
+                <li><strong>Identity:</strong> <code>uwa fc</code> (Strict Standalone App)</li>
+                <li><strong>Navigation:</strong> Router-integrated caching for subpages</li>
+                <li><strong>Theme Syncing:</strong> System-wide navigation bars mapping institutional assets.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>2. Routing Matrix &amp; Site Architecture</h2>
+    <p>The platform relies on client-side routing to handle instantaneous multi-page transitions, allowing deep-nested subpages to load efficiently under a unified system shell.</p>
+
+    <pre><code>/ (Homepage - Match Center &amp; Live Metrics)
+├── /about (Institutional Profile)
+│   └── /about/board (Executive Management &amp; Patron's Message)
+├── /squad (The Club Matrix)
+│   ├── /squad/technical-bench (Coaches &amp; Physiotherapists)
+│   └── /squad/players (Goalkeepers, Defenders, Midfielders, Forwards)
+├── /fixtures (Performance Center)
+│   └── /fixtures/table (Live League Standings)
+└── /community (CSR &amp; Wildlife Conservation Impact)</code></pre>
+
+    <h2>3. Critical PWA Configuration for Subpages <span class="badge">Important</span></h2>
+    <p>Because the app contains deep subpages (like <code>/squad/players</code>), the PWA configuration must be carefully pointed to the absolute base directory so deep routing deep-links do not break upon a fresh update or reload.</p>
+    
+    <p><strong>Vite Router Base &amp; Manifest Sync (<code>vite.config.js</code>):</strong></p>
+    <pre><code>manifest: {
+  name: "uwa fc",
+  short_name: "uwa fc",
+  start_url: "/index.html", // Maps explicitly to the entry shell file
+  display: "standalone",
+  scope: "/" // Ensures the PWA handles all subpages and sub-routes seamlessly
+}</code></pre>
+
+    <p><strong>Main Matrix Shell Entry Point (<code>index.html</code>):</strong></p>
+    <pre><code>&lt;!-- Absolute root linking prevents subpages from looking for manifest relatively --&gt;
+&lt;link rel="manifest" href="/manifest.json"&gt;
+
+&lt;!-- Native iOS Mobile App Override Titles --&gt;
+&lt;meta name="apple-mobile-web-app-title" content="uwa fc"&gt;</code></pre>
+
+    <h2>4. Testing Routing &amp; Updates on Local Workstations</h2>
+    <p>When clicking deep-nested subpages, local service worker caching profiles can occasionally preserve outdated route paths. To forcefully audit new UI or route adjustments immediately during presentation checks:</p>
+    <ul>
+        <li>Launch Chrome Developer tools via <code>F12</code> or right click <strong>Inspect</strong>.</li>
+        <li>Navigate straight into the <strong>Application</strong> panel selection block.</li>
+        <li>Select <strong>Storage</strong> options in the left-hand navigation list menu tree.</li>
+        <li>Click <strong>Clear site data</strong> and cleanly refresh the active layout wrapper.</li>
+    </ul>
+
+    <h2>5. Presentation Deployment Guidelines</h2>
+    <ul>
+        <li><strong>Router Fallback:</strong> If showcasing the project via a built preview version, ensure your local server or hosting solution redirects all subpage requests back to <code>/index.html</code> to allow the router to resolve pages properly without dropping 404 errors.</li>
+        <li><strong>Responsive Demonstration:</strong> Leverage simulated mobile layouts inside inspection tools to display target responsiveness optimizations directly across high-density devices.</li>
+    </ul>
+
+</body>
+</html>
