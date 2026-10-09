@@ -449,7 +449,7 @@ export default function HomeView({ cart = [], onCartChange, currentUserProfile, 
           <div className="home-breathing-card p-2.5 rounded-2xl border bg-gradient-to-b from-[#062613]/80 to-[#031109] flex flex-col justify-between box-border border-[#DAA520]/30 shadow-2xl relative overflow-hidden group">
             <div className="absolute top-2.5 right-2.5 bg-neutral-900 text-white font-mono font-black text-[6px] sm:text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded shadow z-20 border border-white/5">Ordinary Kit</div>
             <div>
-              <div className="w-full h-32 bg-black/50 rounded-xl overflow-hidden mb-2.5 relative border border-white/5 flex items-center justify-center p-2 select-none">
+              <div className="w-full           h-32 bg-black/50 rounded-xl overflow-hidden mb-2.5 relative border border-white/5 flex items-center justify-center p-2 select-none">
                 <img src={new URL('../../assets/home/ordinary_kit.jpg', import.meta.url).href} className="w-full h-full object-cover filter drop-shadow-md transition-transform duration-300 hover:scale-110 relative z-10" alt="Ordinary Kit" onError={(e: any)=>{e.currentTarget.style.display='none';}} />
               </div>
               <h4 className="text-white font-black text-[11px] sm:text-xs uppercase tracking-wide text-left px-1">Eco Green Turf Marathon (Ordinary)</h4>

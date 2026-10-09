@@ -11,7 +11,7 @@ export default function LeagueTable() {
         { team: "Kira United FC", w: 8, d: 9, l: 5, gf: 24, ga: 20 }
     ];
 
-    // 🧮 AUTOMATED MATHEMATICS ENGINE
+    
     const standings = rawLeagueData
         .map((club) => {
             const played = club.w + club.d + club.l;

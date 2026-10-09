@@ -8,6 +8,10 @@ import {
   IoCheckmarkCircleOutline 
 } from 'react-icons/io5';
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -213,7 +217,6 @@ export default function MembershipPage() {
       }
     });
   };
-
   return (
     <div className="w-full min-h-screen px-3 sm:px-6 lg:px-8 py-4 sm:py-12 text-white text-left box-border overflow-x-hidden" style={{ background: 'linear-gradient(to bottom, #031109 0%, #020B05 100%)' }}>
       <div className="max-w-7xl mx-auto container w-full box-border">
@@ -227,7 +230,7 @@ export default function MembershipPage() {
           <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight mt-0.5 leading-none">Fan Membership Desks</h2>
         </div>
 
-        <div className="flex gap-1.5 overflow-x-auto pb-2 mb-4 scrollbar-none w-full box-border">
+        <div className="flex gap-1.5 overflow-x-auto pb-2 mb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full box-border">
           <button type="button" onClick={() => setActiveTab('join')} className={`px-3 sm:px-4 py-2 rounded-md text-[10px] sm:text-xs uppercase font-black font-mono tracking-wider transition-all border flex items-center gap-1.5 flex-none cursor-pointer ${activeTab === 'join' ? 'bg-[#0B4622] text-[#D4AF37]' : 'bg-transparent text-gray-400 hover:bg-white/5'}`} style={{ borderColor: activeTab === 'join' ? '#D4AF37' : 'transparent' }}>
             <IoPeopleOutline size={12} /> Tiers & Benefits
           </button>
@@ -235,6 +238,7 @@ export default function MembershipPage() {
             <IoCardOutline size={12} /> Intake Form
           </button>
         </div>
+
         <div className="w-full box-border">
           {activeTab === 'join' && (
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full box-border items-stretch">
@@ -282,18 +286,19 @@ export default function MembershipPage() {
                       </span>
                     </div>
                     
-                    <button 
+                    <Button 
                       type="button" 
+                      variant="outline"
                       onClick={() => {
                         if (tier.name.includes('Bronze')) setValue('selectedTier', 'Bronze Supporter — UGX 50,000 / Yr');
                         else if (tier.name.includes('Silver')) setValue('selectedTier', 'Silver Ranger Team — UGX 120,000 / Yr');
                         else setValue('selectedTier', 'Gold Conservationist Tier — UGX 250,000 / Yr');
                         setActiveTab('form');
                       }} 
-                      className="w-full sm:w-auto px-4 py-1.5 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] border border-[#D4AF37]/20 rounded-lg text-[10px] sm:text-xs uppercase font-black font-mono tracking-wider cursor-pointer text-center transition-all duration-150 transform active:scale-95 shadow-md"
+                      className="w-full sm:w-auto px-4 py-1.5 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] border border-[#D4AF37]/20 rounded-lg text-[10px] sm:text-xs uppercase tracking-wider cursor-pointer text-center transition-all duration-150 transform active:scale-95 shadow-md"
                     >
                       Select Tier
-                    </button>
+                    </Button>
                   </div>
 
                 </div>
@@ -320,9 +325,9 @@ export default function MembershipPage() {
                       : paymentStatusText}
                   </p>
                   {paymentStatusText === "VERIFIED" && (
-                    <button type="button" onClick={() => { setFormSubmitted(false); setPaymentStatusText('Initiating network payment prompt...'); }} className="px-4 py-2 bg-[#0B4622] hover:bg-[#073016] text-white font-bold rounded-lg text-[10px] sm:text-xs uppercase tracking-wider border border-[#D4AF37]/30 transition-all cursor-pointer shadow-md">
+                    <Button type="button" variant="outline" onClick={() => { setFormSubmitted(false); setPaymentStatusText('Initiating network payment prompt...'); }} className="px-4 py-2 bg-[#0B4622] hover:bg-[#073016] text-white font-bold rounded-lg text-[10px] sm:text-xs uppercase tracking-wider border border-[#D4AF37]/30 transition-all cursor-pointer shadow-md mx-auto block">
                       Register Another Account
-                    </button>
+                    </Button>
                   )}
                 </div>
               ) : (
@@ -335,16 +340,16 @@ export default function MembershipPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                       <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Full Legal Name</label>
-                      <input required type="text" {...register("fullName")} placeholder="e.g., Lwabya Eric" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
+                      <Input required type="text" {...register("fullName")} placeholder="e.g., Lwabya Eric" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Date of Birth</label>
-                        <input required type="date" {...register("dob")} className="w-full py-2 px-2 bg-black/40 border border-white/10 rounded-lg text-[11px] text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono select-none" />
+                        <Input required type="date" {...register("dob")} className="w-full py-2 px-2 bg-black/40 border border-white/10 rounded-lg text-[11px] text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono select-none" />
                       </div>
                       <div>
                         <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">City / Country</label>
-                        <input required type="text" placeholder="e.g., Kampala, UG" {...register("globalLocation")} className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
+                        <Input required type="text" placeholder="e.g., Kampala, UG" {...register("globalLocation")} className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                       </div>
                     </div>
                   </div>
@@ -352,30 +357,40 @@ export default function MembershipPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                       <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Primary Email Registry</label>
-                      <input required type="email" {...register("email")} placeholder="name@domain.com" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
+                      <Input required type="email" {...register("email")} placeholder="name@domain.com" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                     </div>
                     <div>
                       <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Contact Number (With Area Code)</label>
-                      <input required type="tel" {...register("phoneNumber")} placeholder="e.g., +256775862291" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
+                      <Input required type="tel" {...register("phoneNumber")} placeholder="e.g., +256775862291" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                       <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Membership Tier</label>
-                      <select {...register("selectedTier")} className="w-full py-2 px-3 bg-neutral-900 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono cursor-pointer">
-                        <option className="bg-neutral-900 text-white">Bronze Supporter — UGX 50,000 / Yr</option>
-                        <option className="bg-neutral-900 text-white">Silver Ranger Team — UGX 120,000 / Yr</option>
-                        <option className="bg-neutral-900 text-white">Gold Conservationist Tier — UGX 250,000 / Yr</option>
-                      </select>
+                      <Select value={selectedTier} onValueChange={(val) => setValue('selectedTier', val as any)}>
+                        <SelectTrigger className="w-full py-2 px-3 bg-neutral-900 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono h-10">
+                          <SelectValue placeholder="Select Tier" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#031109] border border-white/10 text-white font-mono text-xs">
+                          <SelectItem value="Bronze Supporter — UGX 50,000 / Yr">Bronze Supporter — UGX 50,000 / Yr</SelectItem>
+                          <SelectItem value="Silver Ranger Team — UGX 120,000 / Yr">Silver Ranger Team — UGX 120,000 / Yr</SelectItem>
+                          <SelectItem value="Gold Conservationist Tier — UGX 250,000 / Yr">Gold Conservationist Tier — UGX 250,000 / Yr</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
                       <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Payment API Gateway</label>
-                      <select {...register("paymentApi")} className="w-full py-2 px-3 bg-neutral-900 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono cursor-pointer">
-                        <option className="bg-neutral-900 text-white">MTN Mobile Money Wallet</option>
-                        <option className="bg-neutral-900 text-white">Airtel Money Secure Link</option>
-                        <option className="bg-neutral-900 text-white">International Card Checkout</option>
-                      </select>
+                      <Select value={paymentApi} onValueChange={(val) => setValue('paymentApi', val as any)}>
+                        <SelectTrigger className="w-full py-2 px-3 bg-neutral-900 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono h-10">
+                          <SelectValue placeholder="Select Gateway" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#031109] border border-white/10 text-white font-mono text-xs">
+                          <SelectItem value="MTN Mobile Money Wallet">MTN Mobile Money Wallet</SelectItem>
+                          <SelectItem value="Airtel Money Secure Link">Airtel Money Secure Link</SelectItem>
+                          <SelectItem value="International Card Checkout">International Card Checkout</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
@@ -386,11 +401,15 @@ export default function MembershipPage() {
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] font-mono text-gray-500">
-                    <p className="text-center md:text-left leading-tight">* Secured Merchant Ports: MTN (0775862291) / Airtel (0706560262).</p>
-                    <button type="submit" disabled={isSubmitting} className="w-full md:w-auto py-2.5 px-5 bg-gradient-to-r from-[#D4AF37] to-[#B38F2D] text-[#020B05] rounded-xl font-black uppercase tracking-wider text-[10px] sm:text-xs shadow-xl transform active:scale-95 transition-all duration-150 cursor-pointer text-center flex-none disabled:opacity-40 select-none">
-                      {isSubmitting ? "Verifying PIN..." : "Authorize Payment"}
-                    </button>
+                  <div className="pt-3 border-t border-white/5 flex flex-col items-center justify-center gap-3 text-[10px] font-mono text-gray-500 w-full">
+                    <p className="text-center leading-tight">* Secured Merchant Ports: MTN (0775862291) / Airtel (0706560262).</p>
+                    <Button 
+                      type="submit" 
+                      disabled={isSubmitting || registrationMutation.isPending} 
+                      className="w-full sm:w-auto py-2.5 px-5 bg-gradient-to-r from-[#D4AF37] to-[#B38F2D] text-[#020B05] rounded-xl font-mono font-black uppercase tracking-wider text-[10px] sm:text-xs shadow-xl transform active:scale-95 transition-all duration-150 cursor-pointer text-center flex-none disabled:opacity-40 select-none"
+                    >
+                      {isSubmitting || registrationMutation.isPending ? "Verifying PIN..." : "Authorize Payment"}
+                    </Button>
                   </div>
                 </form>
               )}

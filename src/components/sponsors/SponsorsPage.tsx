@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { 
   IoShieldCheckmarkOutline, 
   IoBriefcaseOutline, 
   IoCheckmarkCircleOutline,
   IoCameraOutline
 } from 'react-icons/io5';
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -36,6 +40,7 @@ interface SponsorsFormData {
   customSponsorshipItem: string;
   intentOverview: string;
 }
+
 const firebaseConfig: FirebaseConfig = {
   apiKey: "AIzaSyDOJ8Ok7anQg774u5vdCpDRqGRW2NG8dho",
   authDomain: "://firebaseapp.com",
@@ -101,102 +106,102 @@ export default function SponsorsPage() {
 
   const onSubmit = (data: SponsorsFormData) => { proposalMutation.mutate(data); };
   return (
-    <div className="w-full min-h-screen px-3 sm:px-6 py-6 sm:py-12 text-white text-left box-border overflow-x-hidden select-none" style={{ background: 'linear-gradient(to bottom, #031109 0%, #020B05 100%)' }}>
+    <div className="w-full min-h-screen px-3 sm:px-6 lg:px-8 py-4 sm:py-12 text-white text-left box-border overflow-x-hidden select-none" style={{ background: 'linear-gradient(to bottom, #031109 0%, #020B05 100%)' }}>
       <div className="max-w-7xl mx-auto container w-full box-border">
         
-        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider mb-5 text-gray-500">
-          <span className="cursor-pointer hover:text-[#D4AF37] block" onClick={() => navigate({ to: '/' })}>Home</span>
-          <span>/</span>
-          <span style={{ color: '#D4AF37' }}>Official Sponsors</span>
+        <div className="flex items-center gap-1.5 text-[9px] sm:text-xs font-mono font-bold uppercase tracking-wider mb-4 text-gray-500 w-full whitespace-nowrap overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <span className="cursor-pointer hover:text-[#D4AF37] block" onClick={() => navigate({ to: '/' })}>Home</span> / <span style={{ color: '#D4AF37' }}>Official Sponsors</span>
         </div>
 
-        <div className="border-b border-white/10 pb-4 sm:pb-6 mb-6 sm:mb-10">
-          <span className="font-mono font-bold text-[10px] sm:text-xs uppercase tracking-widest block" style={{ color: '#D4AF37' }}> Commercial Affiliations & Endorsements</span>
-          <h2 className="text-xl sm:text-4xl font-black uppercase tracking-wide mt-1">Sponsors & Partners</h2>
+        <div className="border-b border-white/5 pb-3 mb-4 text-center sm:text-left">
+          <span className="font-mono font-bold text-[9px] sm:text-xs uppercase tracking-widest block" style={{ color: '#D4AF37' }}> Commercial Affiliations & Endorsements</span>
+          <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight mt-0.5 leading-none">Sponsors & Partners</h2>
         </div>
 
-        <div className="p-4 sm:p-6 rounded-2xl bg-[#041A0E]/30 border max-w-4xl box-border mb-8 sm:mb-10 text-gray-300 text-xs sm:text-sm leading-relaxed" style={{ borderColor: 'rgba(212,175,55,0.15)' }}>
-          <h3 className="text-white font-black text-sm sm:text-lg uppercase tracking-wide mb-2 flex items-center gap-2">
-            <IoShieldCheckmarkOutline style={{ color: '#D4AF37' }} className="flex-shrink-0 text-base sm:text-xl" /> Strategic Conservation Alliances
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#041A0E]/20 border max-w-4xl box-border mb-6 sm:mb-8 text-gray-300 text-xs sm:text-sm leading-relaxed border-white/5 shadow-xl">
+          <h3 className="text-white font-black text-sm sm:text-base uppercase tracking-wide mb-1 flex items-center gap-2">
+            <IoShieldCheckmarkOutline style={{ color: '#D4AF37' }} className="flex-shrink-0 text-base" /> Strategic Conservation Alliances
           </h3>
-          <p>UWA FC works in partnership with prominent government bodies and telecommunications providers. Together, we use football's popularity to advance wildlife conservation, support grassroots communities, and maintain standard digital transaction portals across Uganda.</p>
+          <p className="font-sans leading-normal text-[11px] sm:text-xs font-medium">UWA FC works in partnership with prominent government bodies and telecommunications providers. Together, we use football's popularity to advance wildlife conservation, support grassroots communities, and maintain standard digital transaction portals across Uganda.</p>
         </div>
 
-        <h3 className="text-white font-black text-sm sm:text-base uppercase tracking-wider mb-4 sm:mb-6 flex items-center gap-2">
-          <span className="h-4 w-1 bg-[#D4AF37] rounded-full"></span> Institutional Partner Register
+        <h3 className="text-white font-black text-sm sm:text-base uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span className="h-4 w-1.5 bg-[#D4AF37] rounded-full"></span> Institutional Partner Register
         </h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 w-full box-border items-stretch mb-10 sm:mb-14">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6 w-full box-border items-stretch mb-8 sm:mb-10">
           {corporatePartners.map((partner, idx) => (
-            <div key={idx} className="sponsor-breathing-card p-4 sm:p-5 rounded-2xl border bg-black/20 text-center sm:text-left flex flex-col sm:flex-row gap-5 items-stretch sm:items-center box-border w-full" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
-              <div className="w-full h-44 sm:h-24 sm:w-40 flex items-center justify-center flex-shrink-0 overflow-hidden relative group mx-auto sm:mx-0">
-                <img src={new URL(`../../assets/sponsors/${partner.file}`, import.meta.url).href} alt={`${partner.name} Logo`} className="w-full h-full object-contain relative z-10 transition-transform duration-300 group-hover:scale-105" onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.style.display = 'none'; }} />
-                <div className="absolute inset-0 flex items-center justify-center text-neutral-800 bg-transparent z-0"><IoCameraOutline size={28} className="opacity-20 text-[#D4AF37]" /></div>
+            <div key={idx} className="sponsor-breathing-card p-3 sm:p-5 rounded-2xl border bg-black/20 text-left lg:text-center flex flex-col justify-between gap-3 box-border w-full border-white/5">
+              <div className="w-full">
+                <div className="h-36 w-36 sm:h-32 sm:w-32 bg-[#041A0E]/60 border border-white/10 rounded-xl flex items-center justify-center flex-shrink-0 p-3.5 relative group mx-auto lg:mx-auto shadow-inner overflow-hidden">
+                  <img src={new URL(`../../assets/sponsors/${partner.file}`, import.meta.url).href} alt={`${partner.name} Logo`} className="max-w-full max-h-full object-contain relative z-10 transition-transform duration-300 group-hover:scale-105 filter saturate-70" onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.style.display = 'none'; }} />
+                  <div className="absolute inset-0 flex items-center justify-center text-neutral-800 bg-transparent z-0"><IoCameraOutline size={24} className="opacity-30 text-[#D4AF37]" /></div>
+                </div>
+                <div className="mt-2.5 w-full text-left lg:text-center">
+                  <span className="text-[8px] sm:text-[9px] font-mono font-black uppercase tracking-wider block text-[#D4AF37] truncate">{partner.tier}</span>
+                  <h4 className="text-white font-black text-xs sm:text-base uppercase tracking-tight leading-tight mt-0.5 truncate">{partner.name}</h4>
+                </div>
               </div>
-              <div className="space-y-1.5 w-full text-left flex flex-col justify-center">
-                <span className="text-[9px] font-mono font-bold uppercase tracking-widest block text-[#D4AF37]">{partner.tier}</span>
-                <h4 className="text-white font-black text-sm sm:text-base uppercase tracking-wide leading-tight mt-0.5">{partner.name}</h4>
-                <p className="text-gray-400 text-[11px] sm:text-xs leading-relaxed font-sans font-medium">{partner.scope}</p>
-              </div>
+              <p className="text-neutral-400 text-[10px] sm:text-xs leading-normal font-sans font-medium border-t border-white/5 pt-2 line-clamp-3 min-h-[40px] sm:min-h-[48px] text-left lg:text-center">{partner.scope}</p>
             </div>
           ))}
         </div>
         <div className="w-full max-w-2xl mx-auto rounded-2xl border p-4 sm:p-8 text-left box-border sponsor-breathing-card" style={{ background: 'rgba(4, 20, 10, 0.4)', borderColor: 'rgba(212, 175, 55, 0.2)' }}>
           {proposalSubmitted ? (
-            <div className="py-4 sm:py-6 text-center space-y-4">
-              <div className="flex justify-center text-emerald-400"><IoCheckmarkCircleOutline className="text-4xl sm:text-5xl" /></div>
-              <h3 className="text-lg sm:text-xl font-black uppercase tracking-wide text-white">Proposal Logged</h3>
-              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-sm mx-auto font-sans">Your corporate partnership parameters have been securely committed to the secretariat database logs. The commercial marketing directorate will contact your liaison node within 3 business days.</p>
-              <button type="button" onClick={() => setProposalSubmitted(false)} className="w-full sm:w-auto px-5 py-2.5 bg-[#0B4622] text-white font-bold rounded-xl text-xs uppercase tracking-wider border border-[#D4AF37]/30 cursor-pointer shadow-md transform active:scale-95 transition-transform duration-100">Submit Another Request</button>
+            <div className="py-4 sm:py-6 text-center space-y-4 animate-fadeIn">
+              <div className="flex justify-center text-emerald-400"><IoCheckmarkCircleOutline size={48} className="animate-bounce" /></div>
+              <h3 className="text-sm sm:text-base font-black uppercase tracking-wide text-white">Proposal Logged</h3>
+              <p className="text-neutral-400 text-xs leading-normal max-w-md mx-auto font-sans font-medium">Your corporate partnership parameters have been securely committed to the secretariat database logs. The commercial marketing directorate will contact your liaison node within 3 business days.</p>
+              <Button type="button" variant="outline" onClick={() => setProposalSubmitted(false)} className="w-full sm:w-auto px-4 py-2 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] border border-[#D4AF37]/20 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all transform active:scale-95 shadow-md cursor-pointer mx-auto block">Submit Another Request</Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5 font-sans">
-              <div className="border-b border-white/5 pb-3 sm:pb-4 mb-1 sm:mb-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 font-sans text-left">
+              <div className="border-b border-white/5 pb-2 mb-1">
                 <h3 className="text-white font-black text-sm sm:text-base uppercase tracking-wide flex items-center gap-2"><IoBriefcaseOutline style={{ color: '#D4AF37' }} className="flex-shrink-0" /> Partnership Proposal Desk</h3>
-                <p className="text-gray-400 text-[11px] sm:text-xs mt-1">Partner with the Wildlife Stars of Uganda to align your brand identity with premier sporting talent and regional eco-conservation advocacy.</p>
+                <p className="text-neutral-400 text-[10px] sm:text-xs mt-1 leading-normal">Partner with the Wildlife Stars of Uganda to align your brand identity with premier sporting talent and regional eco-conservation advocacy.</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Corporate Entity / Brand Name</label>
-                  <input required type="text" {...register("brandName")} placeholder="e.g., National Bank Ltd" className="w-full py-2 sm:py-2.5 px-3 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#D4AF37]/50" />
+                  <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Corporate Entity / Brand Name</label>
+                  <Input required type="text" {...register("brandName")} placeholder="e.g., National Bank Ltd" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                 </div>
                 <div>
-                  <label className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Liaison Officer Full Name</label>
-                  <input required type="text" {...register("liaisonName")} placeholder="Contact Person" className="w-full py-2 sm:py-2.5 px-3 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#D4AF37]/50" />
+                  <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Liaison Officer Full Name</label>
+                  <Input required type="text" {...register("liaisonName")} placeholder="Contact Person" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Official Corporate Email</label>
-                  <input required type="email" {...register("corporateEmail")} placeholder="corporate@domain.com" className="w-full py-2 sm:py-2.5 px-3 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#D4AF37]/50" />
+                  <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Official Corporate Email</label>
+                  <Input required type="email" {...register("corporateEmail")} placeholder="corporate@domain.com" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                 </div>
                 <div>
-                  <label className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Authorized Telephone Line</label>
-                  <input required type="tel" {...register("authorizedPhone")} placeholder="e.g., +256 772 000000" className="w-full py-2 sm:py-2.5 px-3 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#D4AF37]/50" />
+                  <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Authorized Telephone Line</label>
+                  <Input required type="tel" {...register("authorizedPhone")} placeholder="e.g., +256 772 000000" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
                 </div>
               </div>
 
               <div>
-                <label className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">What would you like to sponsor / provide?</label>
-                <input required type="text" {...register("customSponsorshipItem")} placeholder="e.g., Team Jerseys, Match Balls, Tree Seedlings, Transport Van" className="w-full py-2 sm:py-2.5 px-3 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#D4AF37]/50" />
+                <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">What would you like to sponsor / provide?</label>
+                <Input required type="text" {...register("customSponsorshipItem")} placeholder="e.g., Team Jerseys, Match Balls, Tree Seedlings, Transport Van" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-sans" />
               </div>
               <div>
-                <label className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Brief Overview of Partnership Intent</label>
-                <textarea required { ...register("intentOverview") } rows={3} placeholder="Outline your corporate marketing or CSR objectives..." className="w-full py-2 sm:py-2.5 px-3 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-[#D4AF37]/50 resize-none"></textarea>
+                <label className="text-[9px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Brief Overview of Partnership Intent</label>
+                <textarea required { ...register("intentOverview") } rows={3} placeholder="Outline your corporate marketing or CSR objectives..." className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] resize-none font-sans"></textarea>
               </div>
 
-              <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-xs font-mono font-bold text-gray-400">
-                <p className="text-[9px] sm:text-[10px] text-gray-500 text-center sm:text-left font-sans order-2 sm:order-1">* Dispatches directly to the Commercial Marketing directorate.</p>
-                <button 
+              <div className="pt-3 border-t border-white/5 flex flex-col items-center justify-center gap-3 text-xs font-mono font-bold text-gray-400 w-full">
+                <p className="text-[8px] sm:text-[10px] text-gray-500 text-center font-sans leading-tight">* Dispatches directly to the Commercial Marketing directorate.</p>
+                <Button 
                   disabled={proposalMutation.isPending || isSubmitting}
                   type="submit" 
-                  className="w-full sm:w-auto py-3 sm:py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-xs shadow-lg transform active:scale-95 transition-all duration-150 cursor-pointer text-center flex-none order-1 sm:order-2 disabled:opacity-40" 
+                  className="w-full sm:w-auto py-2.5 px-6 rounded-xl font-mono font-black uppercase tracking-wider text-[10px] sm:text-xs shadow-xl transform active:scale-95 transition-all duration-150 text-center flex-none disabled:opacity-40 select-none cursor-pointer"
                   style={{ background: 'linear-gradient(135deg, #D4AF37 0%, #B38F2D 100%)', color: '#020B05' }}
                 >
                   {proposalMutation.isPending || isSubmitting ? "Logging Document..." : "Submit Proposal"}
-                </button>
+                </Button>
               </div>
             </form>
           )}

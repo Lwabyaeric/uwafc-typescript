@@ -17,6 +17,10 @@ import {
   IoLocationOutline
 } from 'react-icons/io5';
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -97,6 +101,7 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
   const corporateName = watch('corporateName');
   const corporateEmail = watch('corporateEmail');
   const billingPhone = watch('billingPhone');
+  const targetMatchValue = watch('targetMatch');
 
   useEffect(() => {
     const sheetId = 'uwa-hospitality-breath';
@@ -164,7 +169,6 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
       setIsSubmitting(false);
     }
   });
-
   const packages: HospitalityPackageItem[] = [
     {
       name: "Bronze Tier",
@@ -191,6 +195,7 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
       inclusions: ["Private Luxury Suite Rental", "Full Premium Catering", "VIP Valet Parking", "Exclusive Post-Match Player Meet & Greet", "Official Gift Bag", "Match Trophy Photo Opportunity"]
     }
   ];
+
   const handleHospitalityPurchaseExecution = (data: HospitalityFormData) => {
     if (!data.corporateName || !data.billingPhone) {
       alert("Fulfillment Halt: Please populate mandatory contact fields before clearing VIP access cards.");
@@ -244,7 +249,7 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
             method: data.momoProvider === 'mtn' ? "MTN_MOMO_API" : "AIRTEL_MONEY_API"
           });
         } else {
-          alert("Gateway authentication failure. Please check mobile wallet account balances.");
+          alert("Gateway authentication failure. Please check mobile money wallet account balances.");
           setIsSubmitting(false);
         }
       },
@@ -253,7 +258,6 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
       }
     });
   };
-
   return (
     <div className="w-full min-h-screen px-3 sm:px-6 lg:px-8 py-4 sm:py-12 text-white text-left box-border overflow-x-hidden relative" style={{ background: 'linear-gradient(to bottom, #031109 0%, #020B05 100%)' }}>
       <div className="max-w-7xl mx-auto container w-full box-border">
@@ -305,7 +309,7 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
                         UGX {pkg.price.toLocaleString()} <span className="text-[9px] sm:text-[11px] font-sans font-normal text-neutral-400">{pkg.name === 'Platinum Tier' ? '/ Suite' : '/ Guest'}</span>
                       </span>
                     </div>
-                    <button type="button" onClick={() => { setSelectedTier(pkg.name); setSelectedTicketPrice(pkg.price); setActiveTab('book'); }} className="w-full py-2 bg-[#0B4622] text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#073016] rounded-xl text-[9px] sm:text-xs uppercase font-black font-mono tracking-wider transition-all duration-150 transform active:scale-95 cursor-pointer text-center shadow-md">Select Package</button>
+                    <Button type="button" variant="outline" onClick={() => { setSelectedTier(pkg.name); setSelectedTicketPrice(pkg.price); setActiveTab('book'); }} className="w-full py-2 bg-[#0B4622] text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#073016] rounded-xl text-[9px] sm:text-xs uppercase font-black font-mono tracking-wider transition-all duration-150 transform active:scale-95 cursor-pointer text-center shadow-md">Select Package</Button>
                   </div>
                 </div>
               ))}
@@ -323,12 +327,12 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 w-full box-border">
                     <div>
                       <label className="text-[9px] uppercase font-mono font-black tracking-wider text-neutral-400 block mb-1">Company / Corporate Name *</label>
-                      <input required type="text" {...register("corporateName")} placeholder="e.g. Lwabya Eric" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
+                      <Input required type="text" {...register("corporateName")} placeholder="e.g. Lwabya Eric" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] transition-all font-mono" />
                     </div>
                     <div className="grid grid-cols-2 gap-3 w-full">
                       <div>
                         <label className="text-[9px] uppercase font-mono font-black tracking-wider text-neutral-400 block mb-1">Pass Quantity *</label>
-                        <div className="flex items-center bg-black/40 border border-white/10 rounded-lg p-0.5 justify-between">
+                        <div className="flex items-center bg-black/40 border border-white/10 rounded-lg p-0.5 justify-between h-10">
                           <button type="button" onClick={() => setSuiteQuantity(prev => Math.max(1, prev - 1))} className="text-neutral-400 font-bold px-2.5 py-0.5 text-sm outline-none cursor-pointer select-none">-</button>
                           <span className="font-mono text-xs font-bold text-white px-1 select-none">{suiteQuantity}</span>
                           <button type="button" onClick={() => setSuiteQuantity(prev => Math.min(25, prev + 1))} className="text-neutral-400 font-bold px-2.5 py-0.5 text-sm outline-none cursor-pointer select-none">+</button>
@@ -336,7 +340,15 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
                       </div>
                       <div>
                         <label className="text-[9px] uppercase font-mono font-black tracking-wider text-neutral-400 block mb-1">Target Match</label>
-                        <select {...register("targetMatch")} className="w-full py-2 px-2 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] cursor-pointer font-mono"><option className="bg-[#041A0E]">vs Vipers SC</option><option className="bg-[#041A0E]">vs KCCA FC</option></select>
+                        <Select value={targetMatchValue} onValueChange={(val) => setValue('targetMatch', val as any)}>
+                          <SelectTrigger className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] font-mono h-10">
+                            <SelectValue placeholder="Select Match" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#031109] border border-white/10 text-white font-mono text-xs">
+                            <SelectItem value="vs Vipers SC">vs Vipers SC</SelectItem>
+                            <SelectItem value="vs KCCA FC">vs KCCA FC</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
                   </div>
@@ -344,11 +356,11 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full box-border">
                     <div>
                       <label className="text-[9px] uppercase font-mono font-black tracking-wider text-neutral-400 block mb-1">Primary Liaison Email Address *</label>
-                      <input required type="email" {...register("corporateEmail")} placeholder="corporate@domain.com" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] font-mono" />
+                      <Input required type="email" {...register("corporateEmail")} placeholder="corporate@domain.com" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs text-white focus:outline-none focus:border-[#D4AF37] font-mono" />
                     </div>
                     <div>
                       <label className="text-[9px] uppercase font-mono font-black tracking-wider text-neutral-400 block mb-1">Authorized Mobile Number *</label>
-                      <input required type="tel" {...register("billingPhone")} placeholder="e.g. 077XXXXXXX" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
+                      <Input required type="tel" {...register("billingPhone")} placeholder="e.g. 077XXXXXXX" className="w-full py-2 px-3 bg-black/40 border border-white/10 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37]" />
                     </div>
                   </div>
 
@@ -366,9 +378,11 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] font-mono font-bold text-neutral-400">
-                    <p className="text-[8px] sm:text-[10px] text-neutral-500 text-center md:text-left leading-tight">* Finalize booking parameters to run payment prompts or issue pro-forma documentation.</p>
-                    <button type="submit" disabled={isSubmitting} className="w-full md:w-auto py-2.5 px-5 bg-gradient-to-r from-[#D4AF37] to-[#B38F2D] text-[#020B05] rounded-xl font-mono font-black uppercase tracking-wider text-[10px] sm:text-xs shadow-xl transform active:scale-95 transition-all duration-150 cursor-pointer text-center flex-none disabled:opacity-40 select-none">{isSubmitting ? "Processing Enclave..." : "Authorize Booking 🚀"}</button>
+                  <div className="pt-3 border-t border-white/5 flex flex-col items-center justify-center gap-3 w-full">
+                    <p className="text-[8px] sm:text-[10px] text-neutral-500 text-center leading-tight">* Finalize booking parameters to run payment prompts or issue pro-forma documentation.</p>
+                    <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto py-2.5 px-5 bg-gradient-to-r from-[#D4AF37] to-[#B38F2D] text-[#020B05] rounded-xl font-mono font-black uppercase tracking-wider text-[10px] sm:text-xs shadow-xl transform active:scale-95 transition-all duration-150 text-center flex-none disabled:opacity-40 select-none cursor-pointer">
+                      {isSubmitting ? "Processing Enclave..." : "Authorize Booking 🚀"}
+                    </Button>
                   </div>
                 </form>
               )}
@@ -396,7 +410,7 @@ export default function HospitalityPage({ currentUserProfile }: HospitalityPageP
                   </div>
 
                   <div className="p-3 rounded-xl border border-dashed border-emerald-500/30 bg-emerald-950/20 text-xs text-neutral-400 leading-normal">🌲 <strong>Official Access Clearance Note:</strong> Your corporate ledger entry has been securely registered on-chain. Please present this dynamic on-screen QR gate passport upon arrival at the Main Royal Pavilion Hospitality desk on matchday.</div>
-                  <div className="flex justify-end pt-1 w-full"><button type="button" onClick={() => { setBookingStep('form'); setActiveTab('packages'); setGeneratedSuiteId(''); setVerifiedPaymentToken(''); }} className="w-full sm:w-auto px-5 py-2 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] font-mono font-black border border-[#D4AF37]/20 rounded-xl text-xs uppercase tracking-wider cursor-pointer text-center transition-all shadow-md transform active:scale-95">Return to Packages</button></div>
+                  <div className="flex justify-end pt-1 w-full"><Button type="button" variant="outline" onClick={() => { setBookingStep('form'); setActiveTab('packages'); setGeneratedSuiteId(''); setVerifiedPaymentToken(''); }} className="w-full sm:w-auto px-5 py-2 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] font-mono font-black border border-[#D4AF37]/20 rounded-xl text-xs uppercase tracking-wider cursor-pointer text-center transition-all shadow-md transform active:scale-95">Return to Packages</Button></div>
                 </div>
               )}
             </div>

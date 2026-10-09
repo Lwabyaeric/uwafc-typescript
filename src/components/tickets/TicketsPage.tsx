@@ -14,6 +14,9 @@ import {
   IoLocationOutline
 } from 'react-icons/io5';
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getFirestore, Firestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -258,7 +261,6 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
       }
     });
   };
-
   return (
     <div className="w-full min-h-screen px-3 sm:px-6 lg:px-8 py-4 sm:py-12 text-white text-left box-border overflow-x-hidden relative" style={{ background: 'linear-gradient(to bottom, #031109 0%, #020B05 100%)' }}>
       <div className="max-w-4xl mx-auto container w-full box-border">
@@ -269,12 +271,12 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
             <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight mt-0.5 leading-none">Matchday Ticket Desks</h2>
           </div>
           {ticketStep === 'checkout' && (
-            <button type="button" onClick={() => setTicketStep('browse')} className="text-[10px] font-mono font-black text-neutral-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-[#D4AF37] uppercase tracking-tight transition-all cursor-pointer flex-none">Modify</button>
+            <Button type="button" variant="outline" onClick={() => setTicketStep('browse')} className="text-[10px] font-mono font-black text-neutral-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg hover:bg-white/10 hover:text-[#D4AF37] uppercase tracking-tight transition-all cursor-pointer flex-none">Modify</Button>
           )}
         </div>
+
         {ticketStep === 'browse' && (
           <div className="space-y-6 w-full box-border">
-            {/* 📱 2-Column Responsive Layout Fix Matrix for Mobile */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-6 w-full box-border items-stretch">
               {ticketCatalog.map((ticket: TicketCatalogItem) => {
                 const hasDiscount: boolean = ticket.originalPrice > ticket.price;
@@ -300,7 +302,7 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
                         {hasDiscount && <span className="font-mono text-[8px] sm:text-[10px] line-through text-neutral-500">UGX {ticket.originalPrice.toLocaleString()}</span>}
                         <span className={`font-mono text-xs sm:text-base font-black ${isSeasonCard ? 'text-[#D4AF37]' : 'text-emerald-400'}`}>UGX {ticket.price.toLocaleString()}</span>
                       </div>
-                      <button type="button" onClick={() => { setSelectedTicketType(ticket.name); setSelectedTicketPrice(ticket.price); setTicketStep('checkout'); }} className={`w-full py-1.5 rounded-xl text-[9px] sm:text-xs font-black uppercase tracking-wider border cursor-pointer text-center transition-all duration-150 transform active:scale-95 shadow-md ${isSeasonCard ? 'bg-gradient-to-tr from-amber-500 to-amber-600 text-black border-transparent hover:brightness-110' : 'bg-[#0B4622] text-[#D4AF37] border-[#D4AF37]/20 hover:bg-[#073016]'}`}>Procure</button>
+                      <Button type="button" variant="outline" onClick={() => { setSelectedTicketType(ticket.name); setSelectedTicketPrice(ticket.price); setTicketStep('checkout'); }} className={`w-full py-1.5 rounded-xl text-[9px] sm:text-xs font-black uppercase tracking-wider border cursor-pointer text-center transition-all duration-150 transform active:scale-95 shadow-md ${isSeasonCard ? 'bg-gradient-to-tr from-amber-500 to-amber-600 text-black border-transparent hover:brightness-110' : 'bg-[#0B4622] text-[#D4AF37] border-[#D4AF37]/20 hover:bg-[#073016]'}`}>Procure</Button>
                     </div>
                   </div>
                 );
@@ -320,7 +322,7 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
               
               <div className="flex-none bg-black/40 border border-white/5 p-3 rounded-xl font-mono text-[10px] sm:text-xs text-neutral-300 space-y-1 w-full md:w-auto md:min-w-[240px] shadow-inner">
                 <div className="flex gap-1.5 items-start"><IoLocationOutline size={12} className="text-[#D4AF37] flex-none mt-0.5" /> <span><strong>UWA HQ Office:</strong> Plot 7 Kira Road, Kamwokya</span></div>
-                <div className="pt-1 border-t border-white/5 text-neutral-500 font-bold">🏢 Office Hours: Mon - Fri | 8:00 AM - 5:00 PM</div>
+                <div className="pt-1 border-t border-white/5 text-neutral-500 font-bold">Office Hours: Mon - Fri | 8:00 AM - 5:00 PM</div>
               </div>
             </div>
           </div>
@@ -332,17 +334,17 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
               
               <div>
                 <label className="block text-[9px] font-mono font-black uppercase text-neutral-400 tracking-wider mb-1">Supporter Full Name *</label>
-                <input type="text" required {...register("fanName")} className="w-full bg-black/40 border border-white/10 rounded-lg p-2 px-3 text-xs font-sans text-white focus:outline-none focus:border-[#D4AF37] font-mono transition-all" placeholder="e.g. Lwabya Eric" />
+                <Input type="text" required {...register("fanName")} className="w-full bg-black/40 border border-white/10 rounded-lg p-2 px-3 text-xs font-sans text-white focus:outline-none focus:border-[#D4AF37] font-mono transition-all" placeholder="e.g. Lwabya Eric" />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-[9px] font-mono font-black uppercase text-neutral-400 tracking-wider mb-1">Mobile Money Number *</label>
-                  <input type="tel" required {...register("fanPhone")} className="w-full bg-black/40 border border-white/10 rounded-lg p-2 px-3 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37] transition-all" placeholder="e.g. 077XXXXXXX" />
+                  <Input type="tel" required {...register("fanPhone")} className="w-full bg-black/40 border border-white/10 rounded-lg p-2 px-3 text-xs font-mono text-white focus:outline-none focus:border-[#D4AF37] transition-all" placeholder="e.g. 077XXXXXXX" />
                 </div>
                 <div>
                   <label className="block text-[9px] font-mono font-black uppercase text-neutral-400 tracking-wider mb-1">Pass Quantities *</label>
-                  <div className="flex items-center bg-black/40 border border-white/10 rounded-lg p-0.5 justify-between">
+                  <div className="flex items-center bg-black/40 border border-white/10 rounded-lg p-0.5 justify-between h-10">
                     <button type="button" onClick={() => setTicketQuantity(prev => Math.max(1, prev - 1))} className="text-neutral-400 font-bold px-3 py-0.5 text-sm outline-none cursor-pointer select-none">-</button>
                     <span className="font-mono text-xs font-bold text-white px-1 select-none">{ticketQuantity}</span>
                     <button type="button" onClick={() => setTicketQuantity(prev => Math.min(10, prev + 1))} className="text-neutral-400 font-bold px-3 py-0.5 text-sm outline-none cursor-pointer select-none">+</button>
@@ -353,15 +355,16 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
               <div className="pt-2 border-t border-white/5">
                 <label className="block text-[9px] font-mono font-black uppercase text-neutral-400 tracking-wider mb-1.5">Select Network Operator Node</label>
                 <div className="grid grid-cols-2 gap-3">
-                  <button type="button" onClick={() => setValue('momoProvider', 'mtn')} className={`p-2 rounded-lg border font-mono text-[10px] sm:text-xs font-black text-center transition-all cursor-pointer ${momoProvider === 'mtn' ? 'bg-amber-500/10 border-amber-500 text-amber-400 shadow-md' : 'bg-black/20 border-white/5 text-neutral-400 hover:bg-white/5'}`}>📱 MTN MoMo API</button>
-                  <button type="button" onClick={() => setValue('momoProvider', 'airtel')} className={`p-2 rounded-lg border font-mono text-[10px] sm:text-xs font-black text-center transition-all cursor-pointer ${momoProvider === 'airtel' ? 'bg-red-600/10 border-red-600 text-red-400 shadow-md' : 'bg-black/20 border-white/5 text-neutral-400 hover:bg-white/5'}`}>💳 Airtel Money API</button>
+                  <button type="button" onClick={() => setValue('momoProvider', 'mtn')} className={`p-2 rounded-lg border font-mono text-[10px] sm:text-xs font-black text-center transition-all cursor-pointer ${momoProvider === 'mtn' ? 'bg-amber-500/10 border-amber-500 text-amber-400 shadow-md' : 'bg-black/20 border-white/5 text-neutral-400 hover:bg-white/5'}`}>MTN MoMo API</button>
+                  <button type="button" onClick={() => setValue('momoProvider', 'airtel')} className={`p-2 rounded-lg border font-mono text-[10px] sm:text-xs font-black text-center transition-all cursor-pointer ${momoProvider === 'airtel' ? 'bg-red-600/10 border-red-600 text-red-400 shadow-md' : 'bg-black/20 border-white/5 text-neutral-400 hover:bg-white/5'}`}>Airtel Money API</button>
                 </div>
               </div>
 
-              <div className="pt-2">
-                <button type="submit" disabled={ticketMutation.isPending || isSubmitting} className="w-full py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#B38F2D] rounded-xl text-[#020B05] font-mono font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-xl disabled:opacity-40 flex items-center justify-center gap-2 cursor-pointer transform active:scale-95 transition-all select-none">
+              {/* 🎯 RECTIFIED FLEX CONTAINER TO ALIGN THE SUBMIT ACTION DEAD CENTER ONMonitor VIEWS */}
+              <div className="pt-2 flex justify-center w-full">
+                <Button type="submit" disabled={ticketMutation.isPending || isSubmitting} className="w-full sm:w-auto py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#B38F2D] rounded-xl text-[#020B05] font-mono font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-xl disabled:opacity-40 flex items-center justify-center gap-2 cursor-pointer transform active:scale-95 transition-all select-none">
                   {ticketMutation.isPending || isSubmitting ? "Authorizing Security Lines..." : `Clear UGX ${calculateTotalTicketCost().toLocaleString()} via ${momoProvider.toUpperCase()} 🔒`}
-                </button>
+                </Button>
               </div>
             </form>
             
@@ -403,10 +406,10 @@ export default function TicketsPage({ currentUserProfile }: TicketsPageProps) {
             </div>
 
             <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-left">
-              <p className="text-[9px] font-sans font-medium text-emerald-800 leading-tight">🦏 Proceeds directly fund anti-poaching patrol ranger assets inside local game reserve zones.</p>
+              <p className="text-[9px] font-sans font-medium text-emerald-800 leading-tight">Proceeds directly fund anti-poaching patrol ranger assets inside local game reserve zones.</p>
             </div>
 
-            <button type="button" onClick={() => { setTicketStep('browse'); setTicketQuantity(1); setGeneratedTicketId(''); setVerifiedPaymentToken(''); }} className="w-full py-2 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] font-mono font-black border border-[#D4AF37]/20 rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer text-center shadow-md transform active:scale-95 duration-150">Purchase Another</button>
+            <Button type="button" variant="outline" onClick={() => { setTicketStep('browse'); setTicketQuantity(1); setGeneratedTicketId(''); setVerifiedPaymentToken(''); }} className="w-full py-2 bg-[#0B4622] hover:bg-[#073016] text-[#D4AF37] font-mono font-black border border-[#D4AF37]/20 rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer text-center shadow-md transform active:scale-95 duration-150">Purchase Another</Button>
           </div>
         )}
 
